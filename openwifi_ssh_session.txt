@@ -1,0 +1,581 @@
+gefa@gefa-ThinkCentre-M91p:~$ ssh root@192.168.10.122
+The authenticity of host '192.168.10.122 (192.168.10.122)' can't be established.
+ECDSA key fingerprint is SHA256:o6V8K+gl93EUbMStBWZc2AioLiWnZKgn3SB5A9mjTK0.
+Are you sure you want to continue connecting (yes/no/[fingerprint])? yes
+Failed to add the host to the list of known hosts (/home/gefa/.ssh/known_hosts).
+root@192.168.10.122's password: 
+Welcome to Linaro 14.04 (GNU/Linux 4.14.0-gb6e379910a11-dirty armv7l)
+
+ * Documentation:  https://wiki.analog.com/ https://ez.analog.com/
+Last login: Thu Jan  1 00:00:11 1970
+root@analog:~# 
+root@analog:~# 
+root@analog:~# ls
+openwifi
+root@analog:~# 
+root@analog:~# ls openwifi/
+ad9361_drv.ko                  hostapd-openwifi-11ag.conf  rf_init.sh             side_ch.ko
+boot_bin_gen.sh                hostapd-openwifi.conf       rx_intf.ko             side_ch_ctl
+boot_bin_gen_zynqmp.sh         inject_80211                sdcard_boot_update.sh  side_ch_ctl_src
+build_wpa_supplicant_wo11b.sh  link_perf_test.sh           sdr-ad-hoc-join.sh     slice_cfg.sh
+dhcpd.conf                     monitor_ch.sh               sdr-ad-hoc-up.sh       tx_intf.ko
+driver_nl80211.patch           nic_back_to_normal.sh       sdr.ko                 update_sdcard.sh
+drv32                          openofdm_rx.ko              sdrctl                 webserver
+drv64                          openofdm_tx.ko              sdrctl_src             wgd.sh
+fosdem-11ag.sh                 openwifi_ad9361_fir.ftr     set_ant.sh             wpa-connect.conf
+fosdem.sh                      post_config.sh              set_csma_high.sh       xilinx_dma.ko
+get_fpga.sh                    prepare_kernel.sh           set_csma_normal.sh     xpu.ko
+root@analog:~# 
+root@analog:~# 
+root@analog:~# l^C
+
+root@analog:~# 
+root@analog:~# 
+root@analog:~# 
+root@analog:~# 
+root@analog:~# 
+root@analog:~# 
+root@analog:~# 
+root@analog:~# 
+root@analog:~# 
+root@analog:~# ls
+openwifi
+root@analog:~# 
+root@analog:~# cd openwifi/
+root@analog:~/openwifi# ls
+ad9361_drv.ko                  hostapd-openwifi-11ag.conf  rf_init.sh             side_ch.ko
+boot_bin_gen.sh                hostapd-openwifi.conf       rx_intf.ko             side_ch_ctl
+boot_bin_gen_zynqmp.sh         inject_80211                sdcard_boot_update.sh  side_ch_ctl_src
+build_wpa_supplicant_wo11b.sh  link_perf_test.sh           sdr-ad-hoc-join.sh     slice_cfg.sh
+dhcpd.conf                     monitor_ch.sh               sdr-ad-hoc-up.sh       tx_intf.ko
+driver_nl80211.patch           nic_back_to_normal.sh       sdr.ko                 update_sdcard.sh
+drv32                          openofdm_rx.ko              sdrctl                 webserver
+drv64                          openofdm_tx.ko              sdrctl_src             wgd.sh
+fosdem-11ag.sh                 openwifi_ad9361_fir.ftr     set_ant.sh             wpa-connect.conf
+fosdem.sh                      post_config.sh              set_csma_high.sh       xilinx_dma.ko
+get_fpga.sh                    prepare_kernel.sh           set_csma_normal.sh     xpu.ko
+root@analog:~/openwifi# 
+root@analog:~/openwifi# cat fosdem.sh 
+#!/bin/bash
+
+killall hostapd
+killall webfsd
+
+cd ~/openwifi
+service network-manager stop
+./wgd.sh
+ifconfig sdr0 192.168.13.1
+route add default gw 192.168.10.1
+service isc-dhcp-server restart
+hostapd hostapd-openwifi.conf &
+sleep 5
+cd webserver
+webfsd -F -p 80 -f index.html &
+root@analog:~/openwifi# cd ..
+root@analog:~# 
+root@analog:~# pwd
+/root
+root@analog:~# 
+root@analog:~# ls
+openwifi
+root@analog:~# ~/openwifi/fosdem.sh 
+hostapd: no process found
+network-manager stop/waiting
+num_arg  0
+last_input xxxxxxxxx
+test_mode 0
+rmmod: ERROR: Module sdr is not currently loaded
+rmmod: ERROR: Module xilinx_dma is not currently loaded
+check xilinx_dma module is loaded or not
+xilinx_dma is loaded!
+rmmod: ERROR: Module tx_intf is not currently loaded
+check tx_intf module is loaded or not
+tx_intf is loaded!
+rmmod: ERROR: Module ad9361_drv is not currently loaded
+check ad9361_drv module is loaded or not
+ad9361_drv is loaded!
+set RF frontend
+Found openwifi_ad9361_fir.ftr
++ test -f /sys/bus/iio/devices/iio:device0/in_voltage_rf_bandwidth
++ test -f /sys/bus/iio/devices/iio:device1/in_voltage_rf_bandwidth
++ test -f /sys/bus/iio/devices/iio:device2/in_voltage_rf_bandwidth
++ cd /sys/bus/iio/devices/iio:device2/
++ set +x
+FIR Rx: 32,1 Tx: 32,1
+1
+0
+rx0 agc fast_attack
+slow_attack
+fast_attack
+rx1 agc fast_attack
+slow_attack
+fast_attack
+40000000
+17500000
+40000000
+37500000
+rssi
+106.50 dB
+113.50 dB
+rx0 gain to 70
+47.000000 dB
+sh: echo: I/O error
+47.000000 dB
+rx1 gain to 70
+51.000000 dB
+sh: echo: I/O error
+51.000000 dB
+tx0 gain -89dB
+-10.000000 dB
+-89.000000 dB
+tx1 gain 0dB
+-10.000000 dB
+0.000000 dB
+rmmod: ERROR: Module rx_intf is not currently loaded
+check rx_intf module is loaded or not
+rx_intf is loaded!
+rmmod: ERROR: Module openofdm_tx is not currently loaded
+check openofdm_tx module is loaded or not
+openofdm_tx is loaded!
+rmmod: ERROR: Module openofdm_rx is not currently loaded
+check openofdm_rx module is loaded or not
+openofdm_rx is loaded!
+rmmod: ERROR: Module xpu is not currently loaded
+check xpu module is loaded or not
+xpu is loaded!
+rmmod: ERROR: Module sdr is not currently loaded
+insert sdr.ko test_mode=0
+check sdr module is loaded or not
+sdr is loaded!
+the end
+Booting Linux on physical CPU 0x0
+Linux version 4.14.0-gb6e379910a11-dirty (jxj@xps15) (gcc version 7.3.1 20180314 (Linaro GCC 7.3-2018.04-rc3)) #1 SMP PREEMPT Thu Dec 17 17:41:33 CET 2020
+CPU: ARMv7 Processor [413fc090] revision 0 (ARMv7), cr=18c5387d
+CPU: PIPT / VIPT nonaliasing data cache, VIPT aliasing instruction cache
+OF: fdt: Machine model: Xilinx Zynq ZED
+OF: fdt: earlycon: stdout-path /amba@0/uart@E0001000 not found
+Memory policy: Data cache writealloc
+cma: Reserved 128 MiB at 0x16c00000
+On node 0 totalpages: 131072
+free_area_init_node: node 0, pgdat c0c54340, node_mem_map dfbb7000
+  Normal zone: 1024 pages used for memmap
+  Normal zone: 0 pages reserved
+  Normal zone: 131072 pages, LIFO batch:31
+random: fast init done
+percpu: Embedded 16 pages/cpu @dfb89000 s33036 r8192 d24308 u65536
+pcpu-alloc: s33036 r8192 d24308 u65536 alloc=16*4096
+pcpu-alloc: [0] 0 [0] 1 
+Built 1 zonelists, mobility grouping on.  Total pages: 130048
+Kernel command line: console=ttyPS0,115200 root=/dev/mmcblk0p2 rw earlycon rootfstype=ext4 rootwait cpuidle.off=1
+PID hash table entries: 2048 (order: 1, 8192 bytes)
+Dentry cache hash table entries: 65536 (order: 6, 262144 bytes)
+Inode-cache hash table entries: 32768 (order: 5, 131072 bytes)
+Memory: 375940K/524288K available (7168K kernel code, 340K rwdata, 2376K rodata, 1024K init, 160K bss, 17276K reserved, 131072K cma-reserved, 0K highmem)
+Virtual kernel memory layout:
+    vector  : 0xffff0000 - 0xffff1000   (   4 kB)
+    fixmap  : 0xffc00000 - 0xfff00000   (3072 kB)
+    vmalloc : 0xe0800000 - 0xff800000   ( 496 MB)
+    lowmem  : 0xc0000000 - 0xe0000000   ( 512 MB)
+    pkmap   : 0xbfe00000 - 0xc0000000   (   2 MB)
+    modules : 0xbf000000 - 0xbfe00000   (  14 MB)
+      .text : 0xc0008000 - 0xc0800000   (8160 kB)
+      .init : 0xc0b00000 - 0xc0c00000   (1024 kB)
+      .data : 0xc0c00000 - 0xc0c551e0   ( 341 kB)
+       .bss : 0xc0c5ab38 - 0xc0c82e84   ( 161 kB)
+Preemptible hierarchical RCU implementation.
+	RCU restricting CPUs from NR_CPUS=4 to nr_cpu_ids=2.
+	Tasks RCU enabled.
+RCU: Adjusting geometry for rcu_fanout_leaf=16, nr_cpu_ids=2
+NR_IRQS: 16, nr_irqs: 16, preallocated irqs: 16
+efuse mapped to e0800000
+slcr mapped to e0802000
+L2C: platform modifies aux control register: 0x72360000 -> 0x72760000
+L2C: DT/platform modifies aux control register: 0x72360000 -> 0x72760000
+L2C-310 erratum 769419 enabled
+L2C-310 enabling early BRESP for Cortex-A9
+L2C-310 full line of zeros enabled for Cortex-A9
+L2C-310 ID prefetch enabled, offset 1 lines
+L2C-310 dynamic clock gating enabled, standby mode enabled
+L2C-310 cache controller enabled, 8 ways, 512 kB
+L2C-310: CACHE_ID 0x410000c8, AUX_CTRL 0x76760001
+zynq_clock_init: clkc starts at e0802100
+Zynq clock init
+sched_clock: 64 bits at 333MHz, resolution 3ns, wraps every 4398046511103ns
+clocksource: arm_global_timer: mask: 0xffffffffffffffff max_cycles: 0x4ce07af025, max_idle_ns: 440795209040 ns
+Switching to timer-based delay loop, resolution 3ns
+clocksource: ttc_clocksource: mask: 0xffff max_cycles: 0xffff, max_idle_ns: 537538477 ns
+timer #0 at e080a000, irq=17
+Console: colour dummy device 80x30
+Calibrating delay loop (skipped), value calculated using timer frequency.. 666.66 BogoMIPS (lpj=3333333)
+pid_max: default: 32768 minimum: 301
+Mount-cache hash table entries: 1024 (order: 0, 4096 bytes)
+Mountpoint-cache hash table entries: 1024 (order: 0, 4096 bytes)
+CPU: Testing write buffer coherency: ok
+CPU0: thread -1, cpu 0, socket 0, mpidr 80000000
+Setting up static identity map for 0x100000 - 0x100060
+Hierarchical SRCU implementation.
+smp: Bringing up secondary CPUs ...
+CPU1: thread -1, cpu 1, socket 0, mpidr 80000001
+smp: Brought up 1 node, 2 CPUs
+SMP: Total of 2 processors activated (1333.33 BogoMIPS).
+CPU: All CPU(s) started in SVC mode.
+devtmpfs: initialized
+VFP support v0.3: implementor 41 architecture 3 part 30 variant 9 rev 4
+clocksource: jiffies: mask: 0xffffffff max_cycles: 0xffffffff, max_idle_ns: 19112604462750000 ns
+futex hash table entries: 512 (order: 3, 32768 bytes)
+pinctrl core: initialized pinctrl subsystem
+NET: Registered protocol family 16
+DMA: preallocated 256 KiB pool for atomic coherent allocations
+hw-breakpoint: found 5 (+1 reserved) breakpoint and 1 watchpoint registers.
+hw-breakpoint: maximum watchpoint size is 4 bytes.
+zynq-ocm f800c000.ocmc: ZYNQ OCM pool: 256 KiB @ 0xe0840000
+zynq-pinctrl 700.pinctrl: zynq pinctrl initialized
+e0001000.serial: ttyPS0 at MMIO 0xe0001000 (irq = 25, base_baud = 3125000) is a xuartps
+console [ttyPS0] enabled
+SCSI subsystem initialized
+usbcore: registered new interface driver usbfs
+usbcore: registered new interface driver hub
+usbcore: registered new device driver usb
+media: Linux media interface: v0.10
+Linux video capture interface: v2.00
+pps_core: LinuxPPS API ver. 1 registered
+pps_core: Software ver. 5.3.6 - Copyright 2005-2007 Rodolfo Giometti <giometti@linux.it>
+PTP clock support registered
+FPGA manager framework
+Advanced Linux Sound Architecture Driver Initialized.
+clocksource: Switched to clocksource arm_global_timer
+NET: Registered protocol family 2
+TCP established hash table entries: 4096 (order: 2, 16384 bytes)
+TCP bind hash table entries: 4096 (order: 3, 32768 bytes)
+TCP: Hash tables configured (established 4096 bind 4096)
+UDP hash table entries: 256 (order: 1, 8192 bytes)
+UDP-Lite hash table entries: 256 (order: 1, 8192 bytes)
+NET: Registered protocol family 1
+hw perfevents: no interrupt-affinity property for /pmu@f8891000, guessing.
+hw perfevents: enabled with armv7_cortex_a9 PMU driver, 7 counters available
+workingset: timestamp_bits=30 max_order=17 bucket_order=0
+io scheduler noop registered
+io scheduler deadline registered
+io scheduler cfq registered (default)
+io scheduler mq-deadline registered
+io scheduler kyber registered
+dma-pl330 f8003000.dmac: Loaded driver for PL330 DMAC-241330
+dma-pl330 f8003000.dmac: 	DBUFF-128x8bytes Num_Chans-8 Num_Peri-4 Num_Events-16
+brd: module loaded
+loop: module loaded
+m25p80 spi2.0: found s25fl256s1, expected n25q128a11
+m25p80 spi2.0: s25fl256s1 (32768 Kbytes)
+5 ofpart partitions found on MTD device spi2.0
+Creating 5 MTD partitions on "spi2.0":
+0x000000000000-0x000000500000 : "boot"
+0x000000500000-0x000000520000 : "bootenv"
+0x000000520000-0x000000540000 : "config"
+0x000000540000-0x000000fc0000 : "image"
+0x000000fc0000-0x000002000000 : "spare"
+MACsec IEEE 802.1AE
+libphy: Fixed MDIO Bus: probed
+tun: Universal TUN/TAP device driver, 1.6
+libphy: MACB_mii_bus: probed
+macb e000b000.ethernet eth0: Cadence GEM rev 0x00020118 at 0xe000b000 irq 29 (12:34:56:78:90:ab)
+Marvell 88E1510 e000b000.ethernet-ffffffff:00: attached PHY driver [Marvell 88E1510] (mii_bus:phy_addr=e000b000.ethernet-ffffffff:00, irq=POLL)
+ehci_hcd: USB 2.0 'Enhanced' Host Controller (EHCI) Driver
+usbcore: registered new interface driver usb-storage
+usbcore: registered new interface driver usbserial
+usbcore: registered new interface driver usbserial_generic
+usbserial: USB Serial support registered for generic
+usbcore: registered new interface driver ftdi_sio
+usbserial: USB Serial support registered for FTDI USB Serial Device
+chipidea-usb2 e0002000.usb: e0002000.usb supply vbus not found, using dummy regulator
+ULPI transceiver vendor/product ID 0x0451/0x1507
+Found TI TUSB1210 ULPI transceiver.
+ULPI integrity check: passed.
+ci_hdrc ci_hdrc.0: EHCI Host Controller
+ci_hdrc ci_hdrc.0: new USB bus registered, assigned bus number 1
+ci_hdrc ci_hdrc.0: USB 2.0 started, EHCI 1.00
+hub 1-0:1.0: USB hub found
+hub 1-0:1.0: 1 port detected
+i2c /dev entries driver
+at24 0-0050: 256 byte 24c02 EEPROM, writable, 1 bytes/write
+IR NEC protocol handler initialized
+IR RC5(x/sz) protocol handler initialized
+IR RC6 protocol handler initialized
+IR JVC protocol handler initialized
+IR Sony protocol handler initialized
+IR SANYO protocol handler initialized
+IR Sharp protocol handler initialized
+IR MCE Keyboard/mouse protocol handler initialized
+IR XMP protocol handler initialized
+usbcore: registered new interface driver uvcvideo
+USB Video Class driver (1.1.1)
+gspca_main: v2.14.0 registered
+cdns-wdt f8005000.watchdog: Xilinx Watchdog Timer at e088a000 with timeout 10s
+Xilinx Zynq CpuIdle Driver started
+failed to register cpuidle driver
+sdhci: Secure Digital Host Controller Interface driver
+sdhci: Copyright(c) Pierre Ossman
+sdhci-pltfm: SDHCI platform and OF driver helper
+mmc0: Invalid maximum block size, assuming 512 bytes
+mmc0: SDHCI controller on e0100000.mmc [e0100000.mmc] using ADMA
+ledtrig-cpu: registered to indicate activity on CPUs
+hidraw: raw HID events driver (C) Jiri Kosina
+usbcore: registered new interface driver usbhid
+usbhid: USB HID core driver
+adf4350 spi1.0: spi1.0 supply vcc not found, using dummy regulator
+adf4350 spi1.0: Probe failed (muxout)
+adf4350 spi1.1: spi1.1 supply vcc not found, using dummy regulator
+adf4350 spi1.1: Probe failed (muxout)
+fpga_manager fpga0: Xilinx Zynq FPGA Manager registered
+Netfilter messages via NETLINK v0.30.
+nfnl_acct: registering with nfnetlink.
+nf_conntrack version 0.5.0 (8192 buckets, 32768 max)
+mmc0: new high speed SDHC card at address 1234
+mmcblk0: mmc0:1234 SA08G 7.42 GiB 
+ctnetlink v0.93: registering with nfnetlink.
+ mmcblk0: p1 p2 p3
+nf_tables: (c) 2007-2009 Patrick McHardy <kaber@trash.net>
+nf_tables_compat: (c) 2012 Pablo Neira Ayuso <pablo@netfilter.org>
+xt_time: kernel timezone is -0000
+ip_tables: (C) 2000-2006 Netfilter Core Team
+ipt_CLUSTERIP: ClusterIP Version 0.8 loaded successfully
+arp_tables: arp_tables: (C) 2002 David S. Miller
+NET: Registered protocol family 17
+Registering SWP/SWPB emulation handler
+hctosys: unable to open rtc device (rtc0)
+ALSA device list:
+  No soundcards found.
+EXT4-fs (mmcblk0p2): recovery complete
+EXT4-fs (mmcblk0p2): mounted filesystem with ordered data mode. Opts: (null)
+VFS: Mounted root (ext4 filesystem) on device 179:2.
+devtmpfs: mounted
+Freeing unused kernel memory: 1024K
+init: hwclock main process (927) terminated with status 1
+systemd-udevd[1019]: starting version 204
+init: udev-fallback-graphics main process (1422) terminated with status 1
+NET: Registered protocol family 10
+IPv6: ADDRCONF(NETDEV_UP): eth0: link is not ready
+Segment Routing with IPv6
+macb e000b000.ethernet eth0: link up (1000/Full)
+IPv6: ADDRCONF(NETDEV_CHANGE): eth0: link becomes ready
+init: alsa-restore main process (1733) terminated with status 19
+init: isc-dhcp-server main process (1773) terminated with status 1
+init: isc-dhcp-server main process ended, respawning
+init: samba-ad-dc main process (1673) terminated with status 1
+init: isc-dhcp-server main process (1817) terminated with status 1
+init: isc-dhcp-server main process ended, respawning
+init: isc-dhcp-server main process (1847) terminated with status 1
+init: isc-dhcp-server main process ended, respawning
+init: isc-dhcp-server main process (1890) terminated with status 1
+init: isc-dhcp-server main process ended, respawning
+init: tty1 main process (1913) killed by TERM signal
+init: isc-dhcp-server main process (1933) terminated with status 1
+init: isc-dhcp-server main process ended, respawning
+init: lightdm main process (1691) terminated with status 1
+init: isc-dhcp-server main process (1977) terminated with status 1
+init: isc-dhcp-server main process ended, respawning
+init: isc-dhcp-server main process (2007) terminated with status 1
+init: isc-dhcp-server main process ended, respawning
+init: isc-dhcp-server main process (2019) terminated with status 1
+init: isc-dhcp-server main process ended, respawning
+init: isc-dhcp-server main process (2027) terminated with status 1
+init: isc-dhcp-server main process ended, respawning
+init: isc-dhcp-server main process (2035) terminated with status 1
+init: isc-dhcp-server main process ended, respawning
+init: isc-dhcp-server main process (2043) terminated with status 1
+init: isc-dhcp-server main process ended, respawning
+init: isc-dhcp-server main process (2051) terminated with status 1
+init: isc-dhcp-server main process ended, respawning
+init: isc-dhcp-server main process (2060) terminated with status 1
+init: isc-dhcp-server main process ended, respawning
+init: isc-dhcp-server main process (2068) terminated with status 1
+init: isc-dhcp-server main process ended, respawning
+init: isc-dhcp-server main process (2076) terminated with status 1
+init: isc-dhcp-server main process ended, respawning
+init: isc-dhcp-server main process (2084) terminated with status 1
+init: isc-dhcp-server main process ended, respawning
+init: isc-dhcp-server main process (2092) terminated with status 1
+init: isc-dhcp-server main process ended, respawning
+init: isc-dhcp-server main process (2100) terminated with status 1
+init: isc-dhcp-server respawning too fast, stopped
+init: alsa-restore main process (2160) terminated with status 19
+init: isc-dhcp-server main process (2176) terminated with status 1
+init: isc-dhcp-server main process ended, respawning
+init: isc-dhcp-server main process (2277) terminated with status 1
+init: isc-dhcp-server main process ended, respawning
+init: isc-dhcp-server main process (2285) terminated with status 1
+init: isc-dhcp-server main process ended, respawning
+init: isc-dhcp-server main process (2293) terminated with status 1
+init: isc-dhcp-server main process ended, respawning
+init: isc-dhcp-server main process (2301) terminated with status 1
+init: isc-dhcp-server main process ended, respawning
+init: isc-dhcp-server main process (2309) terminated with status 1
+init: isc-dhcp-server main process ended, respawning
+init: isc-dhcp-server main process (2317) terminated with status 1
+init: isc-dhcp-server main process ended, respawning
+init: isc-dhcp-server main process (2325) terminated with status 1
+init: isc-dhcp-server main process ended, respawning
+init: isc-dhcp-server main process (2333) terminated with status 1
+init: isc-dhcp-server main process ended, respawning
+init: isc-dhcp-server main process (2341) terminated with status 1
+init: isc-dhcp-server main process ended, respawning
+init: isc-dhcp-server main process (2349) terminated with status 1
+init: isc-dhcp-server respawning too fast, stopped
+random: crng init done
+xilinx-vdma 80400000.dma: Xilinx AXI DMA Engine Driver Probed!!
+xilinx-vdma 80410000.dma: Xilinx AXI DMA Engine Driver Probed!!
+tx_intf: loading out-of-tree module taints kernel.
+
+sdr,tx_intf dev_probe match!
+sdr,tx_intf dev_probe io start 0x83c0ffff83c00000 end 0x200dfbb53b4 name (null) flags 0xbf16301c desc 0xbf16301c
+sdr,tx_intf dev_probe base_addr 0xe3280000
+sdr,tx_intf dev_probe tx_intf_driver_api_inst 0xbf163284
+sdr,tx_intf dev_probe             tx_intf_api 0xbf163284
+sdr,tx_intf dev_probe succeed!
+sdr,tx_intf hw_init mode 6
+sdr,tx_intf hw_init mode TX_INTF_BW_20MHZ_AT_N_10MHZ_ANT1
+sdr,tx_intf hw_init err 0
+ad9361 spi0.0: ad9361_probe : enter (ad9361)
+ad9361 spi0.0: ad9361_probe : AD936x Rev 2 successfully initialized
+cf_axi_adc 79020000.cf-ad9361-lpc: ADI AIM (10.01.b) at 0x79020000 mapped to 0xe3238000, probed ADC AD9361 as MASTER
+cf_axi_dds 79024000.cf-ad9361-dds-core-lpc: Analog Devices CF_AXI_DDS_DDS MASTER (9.01.b) at 0x79024000 mapped to 0xe321e000, probed DDS AD9361
+
+sdr,rx_intf dev_probe match!
+sdr,rx_intf dev_probe io start 0x83c20000 end 0x83c2ffff name /fpga-axi@0/rx_intf@83c20000 flags 0x00000200 desc 0x00000000
+sdr,rx_intf dev_probe base_addr 0xe3370000
+sdr,rx_intf dev_probe rx_intf_driver_api_inst 0xbf193284
+sdr,rx_intf dev_probe             rx_intf_api 0xbf193284
+sdr,rx_intf dev_probe succeed!
+sdr,rx_intf hw_init mode 2
+sdr,rx_intf hw_init mode DDC_BW_20MHZ_AT_0MHZ
+sdr,rx_intf hw_init err 0
+
+sdr,openofdm_tx dev_probe match!
+sdr,openofdm_tx dev_probe io start 0x83c10000 end 0x83c1ffff name /fpga-axi@0/openofdm_tx@83c10000 flags 0x00000200 desc 0x00000000
+sdr,openofdm_tx dev_probe base_addr 0xe33b0000
+sdr,openofdm_tx dev_probe openofdm_tx_driver_api_inst 0xbf19c284
+sdr,openofdm_tx dev_probe             openofdm_tx_api 0xbf19c284
+sdr,openofdm_tx dev_probe succeed!
+sdr,openofdm_tx hw_init mode 1
+sdr,openofdm_tx hw_init mode OPENOFDM_TX_NORMAL
+sdr,openofdm_tx hw_init err 0
+
+sdr,openofdm_rx dev_probe match!
+sdr,openofdm_rx dev_probe io start 0x83c30000 end 0x83c3ffff name /fpga-axi@0/openofdm_rx@83c30000 flags 0x00000200 desc 0x00000000
+sdr,openofdm_rx dev_probe base_addr 0xe33f0000
+sdr,openofdm_rx dev_probe openofdm_rx_driver_api_inst 0xbf1a4284
+sdr,openofdm_rx dev_probe             openofdm_rx_api 0xbf1a4284
+sdr,openofdm_rx dev_probe succeed!
+sdr,openofdm_rx hw_init mode 1
+sdr,openofdm_rx hw_init mode OPENOFDM_RX_NORMAL
+sdr,openofdm_rx hw_init input:
+power_thres 0
+min_plateau 100
+sdr,openofdm_rx hw_init err 0
+
+sdr,xpu dev_probe match!
+sdr,xpu dev_probe io start 0x83c40000 end 0x83c4ffff name /fpga-axi@0/xpu@83c40000 flags 0x00000200 desc 0x00000000
+sdr,xpu dev_probe base_addr 0xe3450000
+sdr,xpu dev_probe xpu_driver_api_inst 0xbf1ad284
+sdr,xpu dev_probe             xpu_api 0xbf1ad284
+sdr,xpu dev_probe reset tsf timer
+sdr,xpu dev_probe XPU_REG_TSF_RUNTIME_VAL_LOW_read 1 33032 100040us
+sdr,xpu dev_probe succeed!
+sdr,xpu hw_init mode 1
+sdr,xpu hw_init mode XPU_NORMAL
+sdr,xpu hw_init err 0
+sdr: no symbol version for openofdm_rx_api
+
+sdr,sdr openwifi_dev_probe: match!
+sdr,sdr custom_match_spi_dev ad9361-phy ad9361-phy 1
+sdr,sdr bus_find_device ad9361-phy: ad9361. driver_data pointer d6b5b210
+sdr,sdr ad9361_spi_to_phy ad9361-phy: ad9361
+sdr,sdr openwifi_dev_probe: ad9361_ctrl_outs_setup en_mask 0xff index 0x16
+sdr,sdr openwifi_dev_probe: ad9361_spi_read REG_CTRL_OUTPUT_POINTER 0x16
+sdr,sdr openwifi_dev_probe: ad9361_spi_read REG_CTRL_OUTPUT_ENABLE 0xff
+sdr,sdr custom_match_platform_dev 79024000.cf-ad9361-dds-core-lpc
+sdr,sdr openwifi_dev_probe: cf-ad9361-dds-core-lpc dds_st->version 00090162 chip_info->name AD9361
+sdr,sdr openwifi_dev_probe: cf_axi_dds_datasel DATA_SEL_DMA
+sdr,sdr openwifi_dev_probe: priv->rf_bw == 40000000Hz. bool for 20000000 0, 40000000 1
+sdr,sdr openwifi_dev_probe: test_mode 0
+sdr,sdr openwifi_dev_probe: rfkill radio on
+sdr,sdr openwifi_dev_probe: band_2GHz.n_channels 14 n_bitrates 12 band_5GHz.n_channels 11 n_bitrates 12
+sdr,sdr openwifi_dev_probe: mac_addr 66:55:44:33:22:bb
+ieee80211 phy0: Selected rate control algorithm 'minstrel_ht'
+sdr,sdr openwifi_dev_probe: ieee80211_register_hw 0
+ieee80211 phy0: hwaddr 6655443322bb, ZYNQ + ad9361
+sdr,sdr openwifi_rfkill_init: wireless switch is on
+sdr,sdr fpga-axi@0:sdr sdr0: renamed from wlan0
+stop: Unknown instance: 
+isc-dhcp-server start/running, process 2571
+Configuration file: hostapd-openwifi.conf
+sdr0: interface state UNINITIALIZED->COUNTRY_UPDATE
+Using interface sdr0 with hwaddr 66:55:44:33:22:bb and ssid "openwifi"
+sdr0: interface state COUNTRY_UPDATE->ENABLED
+sdr0: AP-ENABLED 
+root@analog:~# 
+root@analog:~# 
+root@analog:~# sdr0: STA 38:f9:d3:de:89:9a IEEE 802.11: authenticated
+sdr0: STA 38:f9:d3:de:89:9a IEEE 802.11: associated (aid 1)
+sdr0: AP-STA-CONNECTED 38:f9:d3:de:89:9a
+sdr0: STA 38:f9:d3:de:89:9a RADIUS: starting accounting session 00000223-00000000
+sdr0: AP-STA-DISCONNECTED 38:f9:d3:de:89:9a
+sdr0: STA 38:f9:d3:de:89:9a IEEE 802.11: disassociated
+sdr0: STA 38:f9:d3:de:89:9a IEEE 802.11: deauthenticated due to inactivity (timer DEAUTH/REMOVE)
+
+root@analog:~# 
+root@analog:~# 
+root@analog:~# sdr0: STA b8:d7:af:99:2c:7f IEEE 802.11: authenticated
+
+root@analog:~# 
+root@analog:~# 
+root@analog:~# 
+root@analog:~# sdr0: STA b8:d7:af:99:2c:7f IEEE 802.11: did not acknowledge authentication response
+sdr0: STA b8:d7:af:99:2c:7f IEEE 802.11: did not acknowledge authentication response
+sdr0: STA b8:d7:af:99:2c:7f IEEE 802.11: authenticated
+sdr0: STA b8:d7:af:99:2c:7f IEEE 802.11: associated (aid 1)
+sdr0: AP-STA-CONNECTED b8:d7:af:99:2c:7f
+sdr0: STA b8:d7:af:99:2c:7f RADIUS: starting accounting session 00000223-00000001
+ls
+openwifi
+root@analog:~# ls
+openwifi
+root@analog:~# 
+root@analog:~# 
+root@analog:~# 
+root@analog:~# 
+root@analog:~# 
+root@analog:~# 
+root@analog:~# 
+root@analog:~# 
+root@analog:~# sdfsdf
+-bash: sdfsdf: command not found
+root@analog:~# 
+root@analog:~# 
+root@analog:~# 
+root@analog:~# 
+root@analog:~# 
+root@analog:~# 
+root@analog:~# 
+root@analog:~# 
+root@analog:~# 
+root@analog:~# asdasd
+-bash: asdasd: command not found
+root@analog:~# 
+root@analog:~# 
+root@analog:~# 
+root@analog:~# 
+root@analog:~# 
+root@analog:~# 
+root@analog:~# 
+root@analog:~# 
+root@analog:~# 
+root@analog:~# 
+root@analog:~# 
+root@analog:~# 
+root@analog:~# 
+Broadcast message from root@analog
+	(/dev/pts/4) at 0:23 ...
+
+The system is going down for power off NOW!
+Connection to 192.168.10.122 closed by remote host.
+Connection to 192.168.10.122 closed.
+gefa@gefa-ThinkCentre-M91p:~$ 
